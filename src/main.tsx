@@ -1,7 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 // import {HooksApp} from './HooksApp';
-import { TrafficLight } from './01-useState/TrafficLight';
+// import { TrafficLight } from './01-useState/TrafficLight';
+import { TrafficLight } from './02-useEffect/TrafficLightWithEffect';
 
 
 import './index.css'
