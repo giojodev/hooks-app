@@ -10,10 +10,11 @@ interface Props {
 }
 
 const usePokemon = ({id}:Props) => {
-  
+   const [isloading, setIsloading] = useState(true);
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
     
     const getPokemonById = async (id:number) => {
+        setIsloading(true)
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
         const data = await response.json();
        
@@ -22,6 +23,7 @@ const usePokemon = ({id}:Props) => {
             name: data.name,
             imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
         });
+        setIsloading(false);
     }
 
     useEffect(() => {
@@ -29,7 +31,9 @@ const usePokemon = ({id}:Props) => {
     }, [id]);
     
     return {
-        pokemon
+        isloading,
+        pokemon,
+        formatterid:id.toString().padStart(3,'0'),
   }
 }
 

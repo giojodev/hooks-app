@@ -4,13 +4,21 @@ import usePokemon from "../hooks/usePokemon";
 
 export const PokemonPage = () => {
     const { count, increment, decrement } = useCounter(1);
-    const { pokemon } = usePokemon({ id: count });
+    const { pokemon,isloading,formatterid } = usePokemon({ id: count });
+
+    if (isloading) {
+        return <div className="bg-gradient flex flex-col items-center">
+            <h1 className="text-2xl font-thin text-white">Cargando...</h1>
+        </div>
+    }
+    if(!pokemon) return <div> No hay pokemon </div>
+
   return (
     <div className="bg-gradient flex flex-col items-center">
       <h1 className="text-2xl font-thin text-white">Pokémon</h1>
-      <h3 className="text-xl font-bold text-white">#{count} {pokemon?.name}</h3>
+      <h3 className="text-xl font-bold text-white">#{formatterid} {pokemon.name}</h3>
       <img
-        src={pokemon?.imageUrl}
+        src={pokemon.imageUrl}
         alt=""
       />
 
