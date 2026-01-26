@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Pokemon {
     id: number;
@@ -23,6 +23,10 @@ const usePokemon = ({id}:Props) => {
             imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
         });
     }
+
+    useEffect(() => {
+        getPokemonById(id);
+    }, [id]);
     
     return {
         pokemon
