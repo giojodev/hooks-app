@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { compile } from "tailwindcss";
 
 interface Todo {
   id: number;
@@ -31,14 +32,22 @@ export const taskReduce = (state: TaskState, action: TaskAction): TaskState => {
       return {
         ...state,
         todos: [...state.todos, newTodo],
+        length: state.todos.length + 1,
+        pending: state.pending + 1 
       };
     }
 
     case "DELETE_TODO":
-      return {
-        ...state,
-        todos: state.todos.filter((todo) => todo.id != action.payload),
-      };
+        {   
+            const deletedTodos = state.todos.filter((todo) => todo.id != action.payload)
+            return {
+              ...state,
+              todos: deletedTodos,
+              length: deletedTodos.length,
+              completed: deletedTodos.filter((todo)=>todo.completed).length,
+              pending: deletedTodos.filter((todo)=>!todo.completed).length,
+            };
+        }
     case "TOGGLE_TODO": {
       const updatedTodos = state.todos.map((todo) => {
         if (todo.id === action.payload) {
@@ -49,6 +58,8 @@ export const taskReduce = (state: TaskState, action: TaskAction): TaskState => {
       return {
         ...state,
         todos: updatedTodos,
+        completed: updatedTodos.filter((todo) => todo.completed).length,
+        pending: updatedTodos.filter((todo) => !todo.completed).length,
       };
     }
     default:
